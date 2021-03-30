@@ -12,9 +12,7 @@ A project for ENEL 400, based on image detection using Tensor flow on Raspberry 
 4. [Running Object Detection on Image, Video, or Pi Camera](https://github.com/armaanpriyadarshan/TensorFlow-2-Lite-Object-Detection-on-the-Raspberry-Pi/blob/main/README.md#step-4-running-object-detection-on-image-video-or-pi-camera)
 
 ## Step 1: Setting up the Raspberry Pi and Getting Updates
-Before we can get started, we must have access to the Raspberry Pi's Desktop Interface. This can be done with VNC Viewer or the standard Monitor and HDMI. I made a more detailed video which can be found below
-
-[![Link to my vid](https://github.com/armaanpriyadarshan/Object-Detection-on-Raspberry-Pi/blob/master/doc/Raspi%20vid.png)](https://www.youtube.com/watch?v=jVzMRlCNO3U)
+Before we can get started, we must have access to the Raspberry Pi's Desktop Interface. This can be done with VNC Viewer or the standard Monitor and HDMI. 
 
 Once you have access to the Desktop Interface, either remote or physical, open up a terminal. Retrieve updates for the Raspberry Pi with
 
