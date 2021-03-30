@@ -104,7 +104,6 @@ If everything went according to plan, you should get
 ```
 2.5.0
 ```
-**Note: The link for downloading the tflite_runtime module is bound to change based on your Python version and platform/architecture. With time, newer versions will be also be released. I'll try my best to update this guide frequently, but the most recent instructions for the installation are located [here](https://www.tensorflow.org/lite/guide/python)**
 
 ## Step 4: Running Object Detection on Image, Video, or Pi Camera
 Now we're finally ready to run object detection! In this repository, I've included a sample model that I converted as well as 3 object detection scripts utilizing OpenCV. If you want to convert a custom model or a pre-trained model, you can look at the [TensorFlow Lite Conversion Guide](https://github.com/armaanpriyadarshan/TensorFlow-2-Lite-Object-Detection-on-the-Raspberry-Pi/blob/main/TFLite-Conversion.md) that I wrote. A majority of the code is from [Edje Electronics' tutorial](https://github.com/EdjeElectronics/TensorFlow-Lite-Object-Detection-on-Android-and-Raspberry-Pi) with a few small adjustments. 
