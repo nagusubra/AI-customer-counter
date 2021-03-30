@@ -1,24 +1,11 @@
-# TensorFlow-2-Lite-Object-Detection-on-the-Raspberry-Pi
-[![TensorFlow 2.2](https://img.shields.io/badge/TensorFlow-2.2-FF6F00?logo=tensorflow)](https://github.com/tensorflow/tensorflow/releases/tag/v2.2.0)
-### Learn how to Convert and Run TensorFlow Lite Object Detection Models on the Raspberry Pi
-<p align="center">
-  <img src="doc/Screenshot 2020-11-14 144537.png">
-</p>
+# AI customer counter
 
-## Introduction
-This repository is a written tutorial covering two topics. TensorFlow Lite conversion and running on the Raspberry Pi. This document contains instructions for running on the Raspberry Pi. If you want to convert a Custom TensorFlow 2 Object Detection Model, please refer to the [conversion guide](https://github.com/armaanpriyadarshan/TensorFlow-2-Lite-Object-Detection-on-the-Raspberry-Pi/blob/main/TFLite-Conversion.md). These instructions are likely to change often with time, so if you have questions feel free to raise an issue. ***This guide has last been tested and updated on 11/13/2020.***
+A project for ENEL 400, based on image detection using Tensor flow on Raspberry Pi which uses a camera to detect the number of people entering and exiting a store.
 
-**I will soon make a YouTube Tutorial which will be posted [here](https://www.youtube.com/watch?v=2ofuUdCDppc), and an extremely import step [here](https://www.youtube.com/channel/UCT9t2Bug62RDUfSBcPt0Bzg?sub_confirmation=1)!**
+(https://github.com/tensorflow/tensorflow/releases/tag/v2.2.0)
 
-## Why TensorFlow Lite?
-This guide is my 3rd in a series about the TensorFlow Object Detection API. Of my 2 previous guides, one of them is about TensorFlow Object Detection on the Raspberry Pi. If I already have a tutorial, why make another? TensorFlow Lite is a massive improvement from your standard TensorFlow installation. Not only is it so much easier to install and use, but the performance is significantly better. It's optimized to run on mobile and other edge devices such as the Raspberry Pi. The numbers speak for themselves!
-<p align="left">
-  <img src="doc/tf vs tflite.png">
-</p>
 
-**It took over 3 minutes to load a TensorFlow model and less than a second to load TensorFlow Lite model. TensorFlow Lite loaded literally 5,693,400% faster(yes I did the math).**
-
-## Table of Contents
+## Steps to run the code 
 1. [Setting up the Raspberry Pi and Getting Updates](https://github.com/armaanpriyadarshan/TensorFlow-2-Lite-Object-Detection-on-the-Raspberry-Pi/blob/main/README.md#step-1-setting-up-the-raspberry-pi-and-getting-updates)
 2. [Organizing our Workspace and Virtual Environment](https://github.com/armaanpriyadarshan/TensorFlow-2-Lite-Object-Detection-on-the-Raspberry-Pi/blob/main/README.md#step-2-organizing-our-workspace-and-virtual-environment)
 3. [Installing the Prerequisites](https://github.com/armaanpriyadarshan/TensorFlow-2-Lite-Object-Detection-on-the-Raspberry-Pi#step-3-installing-the-prerequisites)
@@ -186,9 +173,3 @@ optional arguments:
  ```
  python TFLite-PiCamera-od.py
  ```
- If everything works you should get something like this
- <p align="left">
-  <img src="doc/2020-11-15-230504_1920x1080_scrot.png">
-</p>
-
-Congratulations! This means we're successfully performing real-time object detection on the Raspberry Pi! Now that you've tried out the Pi Camera, why not one of the other scripts? Over the next weeks I'll continue to add on to this repo and tinker with the programs to make them better than ever! If you find something cool, feel free to share it, as others can also learn! And if you have any errors, just raise an issue and I'll be happy to take a look at it. Great work, and until next time, bye! 
