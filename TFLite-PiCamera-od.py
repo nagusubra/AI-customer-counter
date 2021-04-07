@@ -1,6 +1,3 @@
-# This is Edje Electronics' code with some minor adjustments
-# Credit goes to his repo: https://github.com/EdjeElectronics/TensorFlow-Lite-Object-Detection-on-Android-and-Raspberry-Pi
-
 import tflite_runtime.interpreter as tflite
 import os
 import argparse
@@ -11,11 +8,16 @@ import time
 from threading import Thread
 import importlib.util
 
-# Define VideoStream class to handle streaming of video from webcam in separate processing thread
-# Source - Adrian Rosebrock, PyImageSearch: https://www.pyimagesearch.com/2015/12/28/increasing-raspberry-pi-fps-with-python-and-opencv/
+
 class VideoStream:
-    """Camera object that controls video streaming from the Picamera"""
-    def __init__(self,resolution=(640,480),framerate=30):
+    """
+    
+    Camera object that controls video streaming from the Picamera
+    Define VideoStream class to handle streaming of video from webcam in separate processing thread
+    Source - Adrian Rosebrock, PyImageSearch: https://www.pyimagesearch.com/2015/12/28/increasing-raspberry-pi-fps-with-python-and-opencv/
+    
+    """
+    def __init__(self, resolution=(640,480),framerate=60):
         # Initialize the PiCamera and the camera image stream
         self.stream = cv2.VideoCapture(0)
         ret = self.stream.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc(*'MJPG'))
@@ -48,46 +50,45 @@ class VideoStream:
     def read(self):
 	# Return the most recent frame
         return self.frame
-
+    
     def stop(self):
-	# Indicate that the camera and thread should be stopped
+        """Destroy the root of the object and release all resources"""
+        print ("[Info] CLosing ...")
         self.stopped = True
-        
+
+    def destructor(self):
+        """Destroy the root of the object and release all resources"""
+        print ("[Info] CLosing ...")
+        self.stopped = True
+            
 parser = argparse.ArgumentParser()
 parser.add_argument('--model', help='Provide the path to the TFLite file, default is models/model.tflite',
-                    default='models/model.tflite')
+                    default='models/model1.tflite')
 parser.add_argument('--labels', help='Provide the path to the Labels, default is models/labels.txt',
                     default='models/labels.txt')
 parser.add_argument('--threshold', help='Minimum confidence threshold for displaying detected objects',
                     default=0.5)
-parser.add_argument('--resolution', help='Desired webcam resolution in WxH. If the webcam does not support the resolution entered, errors may occur.',
+parser.add_argument('--resolution', help='Desired webcam resolution in WxH.',
                     default='1280x720')
-                    
 args = parser.parse_args()
-
-# PROVIDE PATH TO MODEL DIRECTORY
 PATH_TO_MODEL_DIR = args.model
-
-# PROVIDE PATH TO LABEL MAP
-PATH_TO_LABELS = args.labels
-
-# PROVIDE THE MINIMUM CONFIDENCE THRESHOLD
+PATH_TO_LABELS = args.labels 
 MIN_CONF_THRESH = float(args.threshold)
+
 
 resW, resH = args.resolution.split('x')
 imW, imH = int(resW), int(resH)
 import time
-print('Loading model...', end='')
+print('[Info] Loading model...', end='')
 start_time = time.time()
 
-# LOAD TFLITE MODEL
+
 interpreter = tflite.Interpreter(model_path=PATH_TO_MODEL_DIR)
-# LOAD LABELS
 with open(PATH_TO_LABELS, 'r') as f:
     labels = [line.strip() for line in f.readlines()]
 end_time = time.time()
 elapsed_time = end_time - start_time
-print('Done! Took {} seconds'.format(elapsed_time))
+print('[Info] Done! Took {} seconds'.format(elapsed_time))
 
 interpreter.allocate_tensors()
 input_details = interpreter.get_input_details()
@@ -101,35 +102,29 @@ floating_model = (input_details[0]['dtype'] == np.float32)
 input_mean = 127.5
 input_std = 127.5
 
-# Initialize frame rate calculation
-frame_rate_calc = 1
+
+frame_rate_calc = 1#Initialize video stream
 freq = cv2.getTickFrequency()
-print('Running inference for PiCamera')
-# Initialize video stream
-videostream = VideoStream(resolution=(imW,imH),framerate=30).start()
+print('[Info] Running inference for PiCamera')
+
+videostream = VideoStream(resolution=(imW,imH),framerate=30).start() #"""Initialize video stream"""
 time.sleep(1)
 
 #for frame1 in camera.capture_continuous(rawCapture, format="bgr",use_video_port=True):
 while True:
-    # Start timer (for calculating frame rate)
-    current_count=0
+
+    current_count=0                                                 #"""Start timer (for calculating frame rate)"""
     t1 = cv2.getTickCount()
-
-    # Grab frame from video stream
-    frame1 = videostream.read()
-
-    # Acquire frame and resize to expected shape [1xHxWx3]
-    frame = frame1.copy()
+    frame1 = videostream.read()                                     #"""Grab frame from video stream """
+    frame = frame1.copy()                                           #"""Acquire frame and resize to expected shape [1xHxWx3]"""
     frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
     frame_resized = cv2.resize(frame_rgb, (width, height))
     input_data = np.expand_dims(frame_resized, axis=0)
 
-    # Normalize pixel values if using a floating model (i.e. if model is non-quantized)
-    if floating_model:
+    if floating_model:                                              #"""Normalize pixel values if using a floating model (i.e. if model is non-quantized) Input normalization is a common technique in machine learning. This specific model was trained with input value range -1 to 1, so we should normalize the inference input to the same range to achieve best result."""
         input_data = (np.float32(input_data) - input_mean) / input_std
 
-    # Perform the actual detection by running the model with the image as input
-    interpreter.set_tensor(input_details[0]['index'],input_data)
+    interpreter.set_tensor(input_details[0]['index'],input_data)    #""" Perform the actual detection by running the model with the image as input """
     interpreter.invoke()
 
     # Retrieve detection results
@@ -140,7 +135,7 @@ while True:
 
     # Loop over all detections and draw detection box if confidence is above minimum threshold
     for i in range(len(scores)):
-        if classes[i] == 0.0:
+        if classes[i].all() == 0.0:
             if ((scores[i] > MIN_CONF_THRESH) and (scores[i] <= 1.0)):
 
                 # Get bounding box coordinates and draw box
@@ -164,7 +159,7 @@ while True:
                     current_count+=1
 
     # Draw framerate in corner of frame
-    #cv2.putText(frame,'FPS: {0:.2f}'.format(frame_rate_calc),(15,25),cv2.FONT_HERSHEY_SIMPLEX,1,(0,255,55),2,cv2.LINE_AA)
+    cv2.putText(frame,'FPS: {0:.2f}'.format(frame_rate_calc),(15,25),cv2.FONT_HERSHEY_SIMPLEX,1,(0,255,55),2,cv2.LINE_AA)
     cv2.putText (frame,'Customer Counter, Welcome to UofC!',(350,25),cv2.FONT_HERSHEY_SIMPLEX,1,(0,0,0),3,cv2.LINE_AA)
     cv2.putText (frame,'Total Customer Count : ' + str(current_count),(450,60),cv2.FONT_HERSHEY_SIMPLEX,1,(0,0,0),3,cv2.LINE_AA)
     # All the results have been drawn on the frame, so it's time to display it.
