@@ -2,7 +2,11 @@
 
 A project for ENEL 400, based on image detection using Tensor flow on Raspberry Pi which uses a camera to detect the number of people entering and exiting a store.
 
-(https://github.com/tensorflow/tensorflow/releases/tag/v2.2.0)
+The 3 stages of the project:
+
+1. https://www.youtube.com/watch?v=xjZYEzk6qSo&t=3s
+2. https://www.youtube.com/watch?v=cgwiGRqhjds&t=63s
+3. https://www.youtube.com/watch?v=8usop44kELs&t=5s
 
 
 ## Steps to run the code 
@@ -80,6 +84,11 @@ When you issue ```ls```, your ```tensorflow``` directory should now look somethi
 </p>
 
 ## Step 3: Installing the Prerequisites
+
+
+(https://github.com/tensorflow/tensorflow/releases/tag/v2.2.0)
+
+
 This step should be relatively simple. I have compressed all the commands into one shellscript which you can run with
 ```
 bash install-prerequisites.sh
@@ -170,3 +179,5 @@ optional arguments:
  ```
  python TFLite-PiCamera-od.py
  ```
+ 
+ 
